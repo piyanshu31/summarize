@@ -1,9 +1,6 @@
 from flask import Flask, render_template, request
 from newspaper import Article
-from bs4 import BeautifulSoup
-import nltk
-
-nltk.download('punkt')
+from textblob import TextBlob
 
 app = Flask(__name__)
 
@@ -13,13 +10,17 @@ def home():
 
 @app.route('/summarize', methods=['POST'])
 def summarize():
-    url = request.form['url']
-    article = Article(url)
-    article.download()
-    article.parse()
-    article.nlp()
-    return render_template('index.html', summary=article.summary, title=article.title)
+    try:
+        url = request.form['url']
+        article = Article(url)
+        article.download()
+        article.parse()
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+        blob = TextBlob(article.text)
+        summary = blob.noun_phrases[:10]
 
+        return render_template('index.html', summary=summary, url=url)
+
+    except Exception as e:
+        print(f"[ERROR] {e}")  # Shows in Render logs
+        return render_template('index.html', summary=["❌ Internal Error: Could not summarize. Check URL or logs."], url="")

@@ -18,19 +18,18 @@
     </style>
 </head>
 <body>
-    <h1>📰 Article Summarizer</h1>
-    <form method="post" action="/summarize">
-        <input type="text" name="url" placeholder="Enter article URL" style="width:100%;padding:10px;">
-        <button type="submit" style="margin-top:10px;padding:10px;">Summarize</button>
+    <h1>Summarize a News Article</h1>
+    <form method="POST" action="/summarize">
+        <input type="text" name="url" placeholder="Enter article URL" required>
+        <button type="submit">Summarize</button>
     </form>
 
-    {% if title %}
-        <h2>{{ title }}</h2>
-    {% endif %}
-
     {% if summary %}
-        <h3>Summary:</h3>
-        <textarea readonly>{{ summary }}</textarea>
+        <h2>Summary:</h2>
+        <ul>
+            {% for item in summary %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
     {% endif %}
 </body>
-</html>
