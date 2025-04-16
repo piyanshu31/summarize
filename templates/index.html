@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Article Summarizer</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📰 Article Summarizer</h1>
+    <form method="post" action="/summarize">
+        <input type="text" name="url" placeholder="Enter article URL" style="width:100%;padding:10px;">
+        <button type="submit" style="margin-top:10px;padding:10px;">Summarize</button>
+    </form>
+
+    {% if title %}
+        <h2>{{ title }}</h2>
+    {% endif %}
+
+    {% if summary %}
+        <h3>Summary:</h3>
+        <textarea readonly>{{ summary }}</textarea>
+    {% endif %}
+</body>
+</html>
